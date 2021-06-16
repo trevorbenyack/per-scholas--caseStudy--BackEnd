@@ -5,6 +5,11 @@ import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
+/*
+ * Set up per:
+ * https://www.baeldung.com/intellij-resolve-spring-boot-configuration-properties
+ */
+
 @Configuration
 @ConfigurationProperties("org.perscholas")
 @Getter @Setter
