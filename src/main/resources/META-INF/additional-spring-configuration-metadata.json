@@ -1,0 +1,18 @@
+{
+  "properties": [
+    {
+      "name": "org.perscholas.baseDir",
+      "type": "java.lang.String",
+      "description": "The server's home directory."
+    },
+    {
+      "name": "org.perscholas.maxFileUploadSize",
+      "type": "java.lang.String",
+      "description": "Directory where photos are uploaded to."
+    },
+    {
+      "name": "org.perscholas.uploadDir",
+      "type": "java.lang.String",
+      "description": "Maximum size for photo uploads"
+    }
+  ] }

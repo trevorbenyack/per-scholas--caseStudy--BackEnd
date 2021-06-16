@@ -20,6 +20,9 @@ public class House {
     Long houseId;
 
     @NonNull
+    String houseName;
+
+    @NonNull
     String streetAddress01;
 
     String streetAddress02;
@@ -32,6 +35,10 @@ public class House {
 
     @NonNull
     String zipCode;
+
+    String notes;
+
+    String pictureUrl;
 
     @ToString.Exclude
     @OneToMany(mappedBy = "house")

@@ -1,21 +1,15 @@
 package org.perscholas.caseStudy.controller;
 
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.perscholas.caseStudy.entity.House;
 import org.perscholas.caseStudy.entity.User;
 import org.perscholas.caseStudy.service.HouseService;
 import org.perscholas.caseStudy.service.UserService;
-import org.springframework.beans.factory.annotation.Required;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/users")
+@RequestMapping("/api/users")
 public class UserController {
 
     UserService userService;
@@ -29,5 +23,12 @@ public class UserController {
         userService.addHouseToUser(user, house);
 
     }
+
+    @GetMapping("/getUser")
+    public User getUser() {
+        return userService.getUserById(1L);
+    }
+
+
 
 }

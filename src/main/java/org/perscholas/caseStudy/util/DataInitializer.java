@@ -1,4 +1,4 @@
-package org.perscholas.caseStudy;
+package org.perscholas.caseStudy.util;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.java.Log;
@@ -31,11 +31,11 @@ public class DataInitializer implements CommandLineRunner {
     HouseService houseService;
 
     @Override
-    public void run(String... args) throws Exception {
+    public void run(String... args) {
         log.info("Initializing db data");
 
         User user = iUserRepository.saveAndFlush(new User("trevorbenyack@gmail.com", "Trevor", "Benyack"));
-        House house = iHouseRepository.saveAndFlush(new House("123 Wyomming Ave", "Pittsburgh", "PA", "12345"));
+        House house = iHouseRepository.saveAndFlush(new House("123 Wyomming Ave", "123 Wyomming Ave", "Pittsburgh", "PA", "12345"));
 
         userService.addHouseToUser(user, house);
 

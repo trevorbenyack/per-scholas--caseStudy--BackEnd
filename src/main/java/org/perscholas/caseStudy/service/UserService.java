@@ -22,6 +22,7 @@ public class UserService {
     IHouseRepository iHouseRepository;
 
     public User getUserById(Long userId) {
+        log.info("getUserById user Id is " + userId);
         return iUserRepository.getById(userId);
     }
 
@@ -29,7 +30,6 @@ public class UserService {
 
         user.addHouse(house);
         iUserRepository.saveAndFlush(user);
-        // iHouseRepository.saveAndFlush(house);
 
     }
 }
