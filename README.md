@@ -10,4 +10,3 @@
 
 ## To Do:
 - Junit tests (at least 3 to 4 for DAOs)
-- Custom exception
