@@ -3,9 +3,12 @@ package org.perscholas.caseStudy.service;
 import lombok.AllArgsConstructor;
 import org.perscholas.caseStudy.dao.IHouseRepository;
 import org.perscholas.caseStudy.dao.IUserRepository;
+import org.perscholas.caseStudy.entity.Area;
 import org.perscholas.caseStudy.entity.House;
 import org.perscholas.caseStudy.entity.User;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -18,11 +21,8 @@ public class HouseService {
         return iHouseRepository.getById(houseId);
     }
 
-    public void addUserToHouse(User user, House house) {
+    public List<House> getHousesByUser(User user) {
+        return iHouseRepository.findByUsers(user);
+    };
 
-        user.addHouse(house);
-        iUserRepository.saveAndFlush(user);
-        // iHouseRepository.saveAndFlush(house);
-
-    }
 }

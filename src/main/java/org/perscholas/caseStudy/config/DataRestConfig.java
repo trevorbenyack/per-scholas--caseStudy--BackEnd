@@ -24,7 +24,9 @@ public class DataRestConfig implements RepositoryRestConfigurer {
 
         corsRegistry
                 .addMapping("/**")
-                .allowedOrigins("http://localhost:4200");
+                .allowedOrigins("http://localhost:4200")
+                .allowedHeaders("*")
+                .allowedMethods("GET", "POST", "PUT", "DELETE");
 
         exposeIds(config);
 

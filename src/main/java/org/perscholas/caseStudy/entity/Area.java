@@ -2,15 +2,19 @@ package org.perscholas.caseStudy.entity;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
-@Data
+@Data @Slf4j
 @NoArgsConstructor
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Area {
+public class Area implements Serializable {
+
+    static final long serialVersionUID = 6382462292344345007L;
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long areaId;
@@ -34,6 +38,7 @@ public class Area {
 
     @Override
     public int hashCode() {
-        return areaId.hashCode();
+        return areaName.hashCode();
     }
+
 }

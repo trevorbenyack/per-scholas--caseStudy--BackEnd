@@ -5,6 +5,7 @@ import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,7 +15,9 @@ import java.util.List;
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Slf4j
-public class User {
+public class User implements Serializable {
+
+    static final long serialVersionUID = 6182462249344345097L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,35 +33,6 @@ public class User {
     String lastName;
 
     String phoneNumber;
-
-    @ToString.Exclude
-    @ManyToMany
-    @JoinTable (
-        name="user_house",
-        inverseJoinColumns=@JoinColumn(name = "house_id"),
-        joinColumns=@JoinColumn(name = "user_id")
-    )
-    List<House> houses = new ArrayList<>();
-
-    public void addHouse(House house) {
-        if (houses.contains(house)) {
-            log.info("House " + house.getHouseId() + " is already associated with user " + userId + ".");
-        } else {
-            this.houses.add(house);
-            house.getUsers().add(this);
-            log.info("House " + house.getHouseId() + " added to user " + userId + ".");
-        }
-    }
-
-    public void removeHouse(House house) {
-        if (!houses.contains(house)) {
-            log.info("House " + house.getHouseId() + " is not associated with user " + userId + ".");
-        } else {
-            this.houses.remove(house);
-            house.getUsers().remove(this);
-            log.info("House " + house.getHouseId() + " removed from user " + userId + ".");
-        }
-    }
 
     @Override
     public boolean equals(Object o) {

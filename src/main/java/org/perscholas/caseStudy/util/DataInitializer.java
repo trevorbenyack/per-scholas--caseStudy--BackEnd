@@ -17,6 +17,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
+import java.util.Arrays;
 
 @Component
 @Slf4j
@@ -34,21 +35,23 @@ public class DataInitializer implements CommandLineRunner {
     public void run(String... args) {
         log.info("Initializing db data");
 
+        Area livingRoom = iAreaRepository.saveAndFlush(new Area("Living Room"));
+        Area kitchen = iAreaRepository.saveAndFlush(new Area("Kitchen"));
+
         User user = iUserRepository.saveAndFlush(new User("trevorbenyack@gmail.com", "Trevor", "Benyack"));
+
         House house = iHouseRepository.saveAndFlush(new House("123 Wyomming Ave", "123 Wyomming Ave", "Pittsburgh", "PA", "12345"));
 
-        userService.addHouseToUser(user, house);
-
-        log.info("user's houses are: ");
-        user.getHouses().forEach(System.out::println);
+        house.addUser(user);
+        livingRoom.setHouse(house);
+        kitchen.setHouse(house);
 
         log.info("house's users are: ");
         house.getUsers().forEach(System.out::println);
 
         iUserRepository.saveAndFlush(new User("flokibenyackk@gmail.com", "Floki", "Benyack"));
 
-        iAreaRepository.saveAndFlush(new Area("Living Room"));
-        iAreaRepository.saveAndFlush(new Area("Kitchen"));
+
 
 
     }

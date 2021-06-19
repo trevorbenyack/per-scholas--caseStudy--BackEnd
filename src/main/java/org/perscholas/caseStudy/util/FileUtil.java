@@ -1,17 +1,24 @@
 package org.perscholas.caseStudy.util;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.perscholas.caseStudy.entity.User;
 import org.perscholas.caseStudy.exception.CopyFileException;
 import org.perscholas.caseStudy.exception.FileTooLargeException;
 import org.perscholas.caseStudy.exception.MissingFileException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -30,9 +37,10 @@ public class FileUtil {
 
     // originating method
     // validates file & then saves file to server
-    public void copyFile(MultipartFile file, User user) throws MissingFileException, FileTooLargeException, CopyFileException {
+    public String copyFile(MultipartFile file, User user) throws MissingFileException, FileTooLargeException, CopyFileException {
         validateFile(file, maxFileUploadSize);
-        saveFile(file, user);
+        String newFileName = saveFile(file, user);
+        return newFileName;
     }
 
     // VALIDATION METHODS
@@ -58,11 +66,13 @@ public class FileUtil {
     }
 
     // SAVING METHODS
-    private void saveFile(MultipartFile file, User user) throws CopyFileException {
+    private String saveFile(MultipartFile file, User user) throws CopyFileException {
         try (InputStream is = file.getInputStream()) {
             String newFileName = generateUniqueFileName(file, user);
-            Path rootLocation = Paths.get(getRootLocationForUserHouseImageUpload(user));
+            Path rootLocation = Paths.get(getRootLocationForUserImageUpload(user));
             Files.copy(is, rootLocation.resolve(newFileName));
+
+            return newFileName;
         } catch (IOException ie) {
             log.error("Problem uploading file!", ie);
             throw new CopyFileException("Failed to upload!");
@@ -78,25 +88,7 @@ public class FileUtil {
         return newFileName;
     }
 
-    // method for creating house directory for user when uploading house photos
-    public String getRootLocationForUserHouseImageUpload(User user) {
-        if (user == null) {
-            throw new IllegalArgumentException("No user provided!");
-        }
-        if (ObjectUtils.isEmpty(user.getUserId())) {
-            throw new IllegalArgumentException("No user id!");
-        }
-
-        String base = getRootLocationForUserUpload(user);
-
-        String location = base + "/" + HOUSE_DIR;
-
-        createDirectoryIfItDoesntExist(location);
-
-        return location;
-    }
-
-    public String getRootLocationForUserUpload(User user) {
+    public String getRootLocationForUserImageUpload(User user) {
         if (user == null) {
             throw new IllegalArgumentException("No user provided!");
         }
@@ -135,8 +127,29 @@ public class FileUtil {
         }
     }
 
+    public Resource loadFileAsResource(String fileName) throws FileNotFoundException {
 
+        String userId = "1";
+        Path userPhotoDir = Paths.get(userFilesBasePath + "/" + userId)
+                .toAbsolutePath().normalize();
 
+        try {
+            Path filePath = userPhotoDir.resolve(fileName).normalize();
+            Resource resource = new UrlResource(filePath.toUri());
+            if(resource.exists()) {
+                return resource;
+            } else {
+                // throw new FileNotFoundException();
+                log.error("File Not Found");
+                log.info("userPhotoDir is " + filePath);
+            }
+        } catch (MalformedURLException e) {
+            // throw new FileNotFoundException();
+            log.error("File Not Found, MalformedURLException");
+        }
+
+        return null;
+    }
 
 
 }

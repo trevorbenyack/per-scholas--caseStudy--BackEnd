@@ -19,17 +19,9 @@ import java.util.List;
 public class UserService {
 
     IUserRepository iUserRepository;
-    IHouseRepository iHouseRepository;
 
     public User getUserById(Long userId) {
         log.info("getUserById user Id is " + userId);
         return iUserRepository.getById(userId);
-    }
-
-    public void addHouseToUser(User user, House house) {
-
-        user.addHouse(house);
-        iUserRepository.saveAndFlush(user);
-
     }
 }
