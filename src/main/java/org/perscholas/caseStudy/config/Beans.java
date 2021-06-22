@@ -14,8 +14,7 @@ public class Beans {
 
     @Bean
     public ModelMapper modelMapper() {
-        ModelMapper modelMapper = new ModelMapper();
-        return modelMapper;
+        return new ModelMapper();
     }
 
     // This registers the FasterXML Jackson Datatype Hibernate module which
