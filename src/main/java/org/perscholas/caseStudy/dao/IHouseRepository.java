@@ -10,5 +10,5 @@ import java.util.List;
 @RepositoryRestResource(collectionResourceRel = "houses", path = "houses")
 public interface IHouseRepository extends JpaRepository<House, Long> {
 
-    List<House> findByUsers(User user);
+    // List<House> findByUsers(User user);
 }

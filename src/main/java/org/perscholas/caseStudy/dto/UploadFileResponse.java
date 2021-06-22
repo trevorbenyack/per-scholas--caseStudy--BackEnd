@@ -1,4 +1,4 @@
-package org.perscholas.caseStudy.payload;
+package org.perscholas.caseStudy.dto;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

@@ -42,15 +42,21 @@ public class House implements Serializable {
 
     String notes;
 
-    String pictureUrl;
+    String pictureUrl = "http://localhost:4200/assets/img/house-placeholder-image.png";
 
     // TODO look into using https://github.com/FasterXML/jackson-datatype-hibernate
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-    // TODO Constrain to unique users
+    //@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @ToString.Exclude
-    @ManyToMany(cascade=CascadeType.ALL)
-    @JoinTable(name="user_house", joinColumns=@JoinColumn(name="house_id"), inverseJoinColumns=@JoinColumn(name="user_id"))
-    List<User> users = new ArrayList<>();
+    @OneToMany()
+    List<Area> areas = new ArrayList<>();
+
+    public void addArea(Area area) {
+        areas.add(area);
+    }
+
+    public void removeArea(Area area) {
+        areas.remove(area);
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -60,18 +66,5 @@ public class House implements Serializable {
         House house = (House) o;
 
         return houseId.equals(house.houseId);
-    }
-
-    @Override
-    public int hashCode() {
-        return houseId.hashCode();
-    }
-
-    public void addUser(User user) {
-        users.add(user);
-    }
-
-    public void removeHouse(User user) {
-        users.remove(user);
     }
 }

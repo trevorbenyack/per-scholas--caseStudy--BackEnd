@@ -1,5 +1,6 @@
 package org.perscholas.caseStudy.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
@@ -33,6 +34,21 @@ public class User implements Serializable {
     String lastName;
 
     String phoneNumber;
+
+//    // TODO look into using https://github.com/FasterXML/jackson-datatype-hibernate
+//    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    // TODO Constrain to unique users
+    @ToString.Exclude
+    @OneToMany(cascade=CascadeType.ALL)
+    List<House> houses = new ArrayList<>();
+
+    public void addHouse(House house) {
+        houses.add(house);
+    }
+
+    public void removeHouse(House house) {
+        houses.remove(house);
+    }
 
     @Override
     public boolean equals(Object o) {

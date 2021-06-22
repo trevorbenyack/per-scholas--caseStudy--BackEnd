@@ -22,11 +22,11 @@ public class DataRestConfig implements RepositoryRestConfigurer {
     public void configureRepositoryRestConfiguration(RepositoryRestConfiguration config, CorsRegistry corsRegistry) {
         RepositoryRestConfigurer.super.configureRepositoryRestConfiguration(config, corsRegistry);
 
-        corsRegistry
-                .addMapping("/**")
-                .allowedOrigins("http://localhost:4200")
-                .allowedHeaders("*")
-                .allowedMethods("GET", "POST", "PUT", "DELETE");
+//        corsRegistry
+//                .addMapping("/**")
+//                .allowedOrigins("*")
+//                .allowedHeaders("*")
+//                .allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS");
 
         exposeIds(config);
 

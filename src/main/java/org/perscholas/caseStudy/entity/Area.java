@@ -22,10 +22,6 @@ public class Area implements Serializable {
     @NonNull
     String areaName;
 
-    @ToString.Exclude
-    @ManyToOne()
-    House house;
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
