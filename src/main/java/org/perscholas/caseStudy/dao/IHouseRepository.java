@@ -1,5 +1,6 @@
 package org.perscholas.caseStudy.dao;
 
+import org.perscholas.caseStudy.entity.Area;
 import org.perscholas.caseStudy.entity.House;
 import org.perscholas.caseStudy.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -11,4 +12,5 @@ import java.util.List;
 public interface IHouseRepository extends JpaRepository<House, Long> {
 
     // List<House> findByUsers(User user);
+    House findByAreas(Area area);
 }

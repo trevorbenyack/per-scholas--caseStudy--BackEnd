@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.perscholas.caseStudy.dto.HouseDTO;
 import org.perscholas.caseStudy.entity.House;
+import org.perscholas.caseStudy.service.AreaService;
 import org.perscholas.caseStudy.service.HouseService;
 import org.perscholas.caseStudy.service.UserService;
 import org.springframework.http.HttpStatus;
@@ -18,15 +19,7 @@ public class HouseController {
 
     HouseService houseService;
     UserService userService;
-
-//    @PostMapping("/addUserToHouse")
-//    public void addUserToHouse(@RequestParam("userId") String userId, @RequestParam("houseId") String houseId) {
-//        User user = userService.getUserById(Long.parseLong(userId));
-//        House house = houseService.getHouseById(Long.parseLong(houseId));
-//
-//        houseService.addUserToHouse(user, house);
-//
-//    }
+    AreaService areaService;
 
     @GetMapping("/")
     public House[] getAllHouses() {
@@ -41,10 +34,8 @@ public class HouseController {
         return house;
     }
 
-
     @PostMapping("/")
-    public House createHouse(@RequestBody HouseDTO houseDTO) {
-        House house = houseService.convertHouseDtoToEntity(houseDTO);
+    public House createHouse(@RequestBody House house) {
         return houseService.saveHouse(house);
     } // end createHouse
 }

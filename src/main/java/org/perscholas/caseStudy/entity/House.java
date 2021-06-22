@@ -1,14 +1,20 @@
 package org.perscholas.caseStudy.entity;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Data
@@ -16,6 +22,9 @@ import java.util.List;
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Slf4j
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "houseId")
 public class House implements Serializable {
 
     static final long serialVersionUID = 6382462214934430007L;
@@ -44,17 +53,28 @@ public class House implements Serializable {
 
     String pictureUrl = "http://localhost:4200/assets/img/house-placeholder-image.png";
 
-    // TODO look into using https://github.com/FasterXML/jackson-datatype-hibernate
+    @JsonManagedReference
+    // TODO: look into using https://github.com/FasterXML/jackson-datatype-hibernate
     @ToString.Exclude
-    @OneToMany(fetch = FetchType.EAGER)
-    List<Area> areas = new ArrayList<>();
+    @OneToMany(fetch = FetchType.EAGER, orphanRemoval = true, mappedBy = "house", cascade = CascadeType.PERSIST)
+    Set<Area> areas;
 
     public void addArea(Area area) {
-        areas.add(area);
+        if(getAreas() == null) {
+            areas = new HashSet<>();
+        }
+        this.areas.add(area);
+        area.setHouse(this);
     }
 
     public void removeArea(Area area) {
-        areas.remove(area);
+        this.areas.remove(area);
+
+        // area.setHouse(null);
+    }
+
+    public void persistAreas(List<Area> areas) {
+        areas.forEach(this::addArea);
     }
 
     @Override

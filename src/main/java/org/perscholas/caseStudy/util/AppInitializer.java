@@ -23,7 +23,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 @Component
 @Slf4j
@@ -53,6 +55,12 @@ public class AppInitializer implements CommandLineRunner {
         user.addHouse(house);
         house.addArea(livingRoom);
         house.addArea(kitchen);
+
+        House house02 = new House("456 Pennsyltucky Ave", "456 Pennsyltucky Ave", "Pittsburgh", "PA", "54321");
+        house02.addArea(new Area("bedroom"));
+        house02.addArea(new Area("dining room"));
+
+        houseService.saveHouse(house02);
 
         iUserRepository.saveAndFlush(new User("flokibenyackk@gmail.com", "Floki", "Benyack"));
 
