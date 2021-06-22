@@ -56,10 +56,6 @@ public class AppInitializer implements CommandLineRunner {
 
         iUserRepository.saveAndFlush(new User("flokibenyackk@gmail.com", "Floki", "Benyack"));
 
-        // TODO: DELETE DOES NOTHING
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.registerModule(new Hibernate5Module());
-
     }
     
 

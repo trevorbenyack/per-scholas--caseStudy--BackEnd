@@ -35,7 +35,7 @@ public class User implements Serializable {
 
     String phoneNumber;
 
-//    // TODO look into using https://github.com/FasterXML/jackson-datatype-hibernate
+    // TODO look into using https://github.com/FasterXML/jackson-datatype-hibernate
 //    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     // TODO Constrain to unique users
     @ToString.Exclude

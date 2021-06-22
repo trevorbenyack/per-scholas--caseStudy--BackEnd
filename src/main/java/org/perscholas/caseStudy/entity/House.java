@@ -45,9 +45,8 @@ public class House implements Serializable {
     String pictureUrl = "http://localhost:4200/assets/img/house-placeholder-image.png";
 
     // TODO look into using https://github.com/FasterXML/jackson-datatype-hibernate
-    //@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @ToString.Exclude
-    @OneToMany()
+    @OneToMany(fetch = FetchType.EAGER)
     List<Area> areas = new ArrayList<>();
 
     public void addArea(Area area) {
