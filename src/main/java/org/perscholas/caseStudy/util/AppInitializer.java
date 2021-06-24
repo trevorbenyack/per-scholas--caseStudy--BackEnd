@@ -50,15 +50,19 @@ public class AppInitializer implements CommandLineRunner {
 
         User user = iUserRepository.saveAndFlush(new User("trevorbenyack@gmail.com", "Trevor", "Benyack"));
 
-        House house = iHouseRepository.saveAndFlush(new House("123 Wyomming Ave", "123 Wyomming Ave", "Pittsburgh", "PA", "12345"));
+        House house01 = new House("123 Wyomming", "123 Wyomming Ave", "Pittsburgh", "PA", "12345");
+        house01.setPictureUrl("https://media.gettyimages.com/photos/house-picture-id183881669?s=612x612");
+        iHouseRepository.saveAndFlush(house01);
 
-        user.addHouse(house);
-        house.addArea(livingRoom);
-        house.addArea(kitchen);
+        user.addHouse(house01);
+        house01.addArea(livingRoom);
+        house01.addArea(kitchen);
+        houseService.saveHouse(house01);
 
-        House house02 = new House("456 Pennsyltucky Ave", "456 Pennsyltucky Ave", "Pittsburgh", "PA", "54321");
+        House house02 = new House("456 Pennsyltucky", "456 Pennsyltucky Ave", "Pittsburgh", "PA", "54321");
         house02.addArea(new Area("bedroom"));
         house02.addArea(new Area("dining room"));
+        house02.setPictureUrl("https://nextpittsburgh.com/wp-content/uploads/2019/11/woods2.jpg");
 
         houseService.saveHouse(house02);
 

@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.transaction.annotation.Transactional;
+import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -22,9 +22,6 @@ import java.util.Set;
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Slf4j
-@JsonIdentityInfo(
-        generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "houseId")
 public class House implements Serializable {
 
     static final long serialVersionUID = 6382462214934430007L;
@@ -38,7 +35,7 @@ public class House implements Serializable {
     @NonNull
     String streetAddress01;
 
-    String streetAddress02;
+    String streetAddress02 = "";
 
     @NonNull
     String city;
@@ -49,28 +46,25 @@ public class House implements Serializable {
     @NonNull
     String zipCode;
 
-    String notes;
+    String notes = "";
 
     String pictureUrl = "http://localhost:4200/assets/img/house-placeholder-image.png";
 
     @JsonManagedReference
     // TODO: look into using https://github.com/FasterXML/jackson-datatype-hibernate
     @ToString.Exclude
-    @OneToMany(fetch = FetchType.EAGER, orphanRemoval = true, mappedBy = "house", cascade = CascadeType.PERSIST)
-    Set<Area> areas;
+    @OneToMany(fetch = FetchType.EAGER, orphanRemoval = true, mappedBy = "house")
+    @Cascade({org.hibernate.annotations.CascadeType.ALL})
+    List<Area> areas = new ArrayList<>();
 
     public void addArea(Area area) {
-        if(getAreas() == null) {
-            areas = new HashSet<>();
-        }
         this.areas.add(area);
         area.setHouse(this);
     }
 
     public void removeArea(Area area) {
         this.areas.remove(area);
-
-        // area.setHouse(null);
+        area.setHouse(null);
     }
 
     public void persistAreas(List<Area> areas) {

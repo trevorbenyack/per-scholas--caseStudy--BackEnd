@@ -12,7 +12,6 @@ import java.util.List;
 @Slf4j
 @Service
 @AllArgsConstructor
-@Transactional
 public class AreaService {
     IAreaRepository iAreaRepository;
 
@@ -26,6 +25,10 @@ public class AreaService {
 
     public Area saveArea(Area area) {
         return iAreaRepository.saveAndFlush(area);
+    }
+
+    public void deleteArea(Area area) {
+        iAreaRepository.deleteAreaById(area.getAreaId());
     }
 
 }

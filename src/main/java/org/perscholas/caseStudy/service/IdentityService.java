@@ -12,7 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Getter
 @Setter
 @Log
-@Transactional
 @AllArgsConstructor
 public class IdentityService {
 

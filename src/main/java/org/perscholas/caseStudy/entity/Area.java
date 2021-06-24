@@ -15,9 +15,6 @@ import java.io.Serializable;
 @NoArgsConstructor
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@JsonIdentityInfo(
-        generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "areaId")
 public class Area implements Serializable {
 
     static final long serialVersionUID = 6382462292344345007L;

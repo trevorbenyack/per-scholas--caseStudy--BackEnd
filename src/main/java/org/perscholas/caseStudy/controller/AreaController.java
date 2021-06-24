@@ -50,6 +50,9 @@ public class AreaController {
         house.removeArea(area);
         houseService.saveHouse(house);
 
+        // TODO: Figure out why the orphan removal isn't working
+        areaService.deleteArea(area);
+
         return ResponseEntity.ok("Area " + areaId + " deleted.");
     }
 }

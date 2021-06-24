@@ -14,7 +14,6 @@ import java.util.List;
 
 @Service
 @AllArgsConstructor
-@Transactional
 @Slf4j
 public class UserService {
 
