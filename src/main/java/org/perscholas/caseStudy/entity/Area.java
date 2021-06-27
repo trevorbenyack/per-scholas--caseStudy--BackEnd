@@ -37,12 +37,14 @@ public class Area implements Serializable {
 
         Area area = (Area) o;
 
-        return areaId.equals(area.areaId);
+        if (areaId != null ? !areaId.equals(area.areaId) : area.areaId != null) return false;
+        return areaName.equals(area.areaName);
     }
 
     @Override
     public int hashCode() {
-        return areaName.hashCode();
+        int result = areaId != null ? areaId.hashCode() : 0;
+        result = 31 * result + areaName.hashCode();
+        return result;
     }
-
 }

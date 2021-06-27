@@ -66,22 +66,8 @@ public class HouseService {
 
     public House updateHouse(House house) {
         log.debug("HouseService updateHouse() has been called");
+
         House updatedHouse = iHouseRepository.saveAndFlush(house);
-
-        log.debug("updated House is " + updatedHouse);
-        log.debug("updated Houses areas are: ");
-        updatedHouse.getAreas().forEach(area -> log.debug(area.toString()));
-
-        log.debug("Original house area's are: ");
-        house.getAreas().forEach(area -> {
-            log.debug(area.toString());
-            Area attachedArea = areaService.getAreaById(area.getAreaId());
-            if (!updatedHouse.getAreas().contains(attachedArea)) {
-                log.debug("adding " + attachedArea.getAreaName() + " to house");
-                updatedHouse.addArea(area);
-            }
-        });
-        iHouseRepository.saveAndFlush(updatedHouse);
 
         return updatedHouse;
     }

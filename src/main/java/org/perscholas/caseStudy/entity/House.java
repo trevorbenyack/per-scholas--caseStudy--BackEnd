@@ -50,12 +50,16 @@ public class House implements Serializable {
 
     String pictureUrl = "http://localhost:4200/assets/img/house-placeholder-image.png";
 
+    // "Changing this to a set solved the Multiple representations of the
+    // same entity <entity> are being merged"
+    // This happens when you overwrite the object with same value but
+    // with different hashcodes
     @JsonManagedReference
     // TODO: look into using https://github.com/FasterXML/jackson-datatype-hibernate
     @ToString.Exclude
     @OneToMany(fetch = FetchType.EAGER, orphanRemoval = true, mappedBy = "house")
     @Cascade({org.hibernate.annotations.CascadeType.ALL})
-    List<Area> areas = new ArrayList<>();
+    Set<Area> areas = new HashSet<>();
 
     public void addArea(Area area) {
         this.areas.add(area);
@@ -71,6 +75,7 @@ public class House implements Serializable {
         areas.forEach(this::addArea);
     }
 
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -78,6 +83,11 @@ public class House implements Serializable {
 
         House house = (House) o;
 
-        return houseId.equals(house.houseId);
+        return houseId != null ? houseId.equals(house.houseId) : house.houseId == null;
+    }
+
+    @Override
+    public int hashCode() {
+        return houseId != null ? houseId.hashCode() : 0;
     }
 }
